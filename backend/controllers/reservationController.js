@@ -28,6 +28,24 @@ const createReservation = async (req, res) => {
       });
     }
 
+    // Check name format
+    const namePattern = /^[\p{L}\s'-]+$/u;
+
+    if (!namePattern.test(fullName)) {
+      return res.status(400).json({
+        message: 'Please enter a valid name.'
+      });
+    }
+
+    // Check phone number format
+    const phonePattern = /^0\d{9}$/;
+
+    if (!phonePattern.test(phoneNumber)) {
+      return res.status(400).json({
+        message: 'Please enter a valid 10-digit Australian phone number.'
+      });
+    }
+
     // Check email format
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -50,9 +68,31 @@ const createReservation = async (req, res) => {
     }
 
     // Check number of guests
-    if (numberOfGuests < 1) {
+    if (Number(numberOfGuests) < 1) {
+     return res.status(400).json({
+       message: 'Number of guests must be at least 1.'
+      });
+    }
+
+    // Check reservation time uses 5-minute intervals
+    const timeParts = reservationTime.split(':');
+    const minutes = Number(timeParts[1]);
+
+    if (Number.isNaN(minutes) || minutes % 5 !== 0) {
       return res.status(400).json({
-        message: 'Number of guests must be at least 1.'
+       message: 'Reservation time must use 5-minute intervals.'
+      });
+    }
+
+    const [hour, minute] = reservationTime.split(':').map(Number);
+
+    const totalMinutes = hour * 60 + minute;
+    const openingTime = 11 * 60;
+    const closingTime = 20 * 60;
+
+    if (totalMinutes < openingTime || totalMinutes > closingTime) {
+      return res.status(400).json({
+        message: 'Reservation time must be between 11:00 and 20:00.'
       });
     }
 
