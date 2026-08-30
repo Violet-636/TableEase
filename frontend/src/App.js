@@ -18,6 +18,8 @@ for (let hour = 11; hour <= 20; hour++) {
 }
 
 function App() {
+  const today = new Date().toISOString().split('T')[0];
+  
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -232,6 +234,7 @@ function App() {
               name="reservationDate"
               value={formData.reservationDate}
               onChange={handleChange}
+              min={today}
               required
             />
           </div>
