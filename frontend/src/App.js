@@ -71,7 +71,7 @@ function App() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/reservations',
+        '/api/reservations',
         {
           method: 'POST',
           headers: {
