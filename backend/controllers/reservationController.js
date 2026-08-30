@@ -1,7 +1,5 @@
 const Reservation = require('../models/Reservation');
 
-console.log('Reservation model:', Reservation.modelName, typeof Reservation.countDocuments);
-
 const createReservation = async (req, res) => {
   try {
     const {

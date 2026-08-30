@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const reservationRoutes = require('./routes/reservationRoutes');
+const path = require('path');
 
 dotenv.config();
 
@@ -13,9 +14,13 @@ app.use(express.json());
 
 app.use('/api/reservations', reservationRoutes);
 
-app.get('/', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.send('TableEase API is running');
 });
+
+app.use(
+  express.static(path.join(__dirname, '../frontend/build'))
+);
 
 const PORT = process.env.PORT || 5000;
 
