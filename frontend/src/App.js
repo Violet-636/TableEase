@@ -5,7 +5,6 @@ const timeOptions = [];
 
 for (let hour = 11; hour <= 20; hour++) {
   for (let minute = 0; minute < 60; minute += 5) {
-
     if (hour === 20 && minute > 0) {
       break;
     }
@@ -19,7 +18,9 @@ for (let hour = 11; hour <= 20; hour++) {
 
 function App() {
   const today = new Date().toISOString().split('T')[0];
-  
+
+  const [page, setPage] = useState('home');
+
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -32,6 +33,31 @@ function App() {
 
   const [error, setError] = useState('');
   const [reservation, setReservation] = useState(null);
+
+  const formatDate = (date) => {
+    if (!date) {
+      return '';
+    }
+
+    const [year, month, day] = date.split('-');
+
+    return `${day} / ${month} / ${year}`;
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fullName: '',
+      phoneNumber: '',
+      email: '',
+      reservationDate: '',
+      reservationTime: '',
+      numberOfGuests: '',
+      specialRequests: ''
+    });
+
+    setError('');
+    setReservation(null);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -65,7 +91,9 @@ function App() {
     const phonePattern = /^0\d{9}$/;
 
     if (!phonePattern.test(formData.phoneNumber)) {
-      setError('Please enter a valid 10-digit Australian phone number.');
+      setError(
+        'Please enter a valid 10-digit Australian phone number.'
+      );
       return;
     }
 
@@ -89,18 +117,80 @@ function App() {
       }
 
       setReservation(data.reservation);
-
     } catch (error) {
       setError('Unable to connect to the server.');
     }
   };
 
+  // =========================
+  // HOME PAGE
+  // =========================
+
+  if (page === 'home') {
+    return (
+      <div className="app">
+        <div className="home-page">
+          <h1 className="home-brand">
+            TableEase
+          </h1>
+
+          <p className="home-subtitle">
+            Restaurant Table Reservation
+          </p>
+
+          <div className="home-section">
+            <h3>Customer</h3>
+
+            <button
+              className="primary-button"
+              onClick={() => {
+                resetForm();
+                setPage('reservation');
+              }}
+            >
+              Make a Reservation
+            </button>
+
+            <button
+              className="secondary-button"
+              disabled
+            >
+              Manage Reservation
+            </button>
+          </div>
+
+          <div className="home-divider"></div>
+
+          <div className="home-section">
+            <h3>Staff</h3>
+
+            <p className="staff-description">
+              Manage restaurant reservations
+            </p>
+
+            <button
+              className="staff-button"
+              disabled
+            >
+              Staff Management
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================
+  // CONFIRMATION PAGE
+  // =========================
+
   if (reservation) {
     return (
       <div className="app">
         <div className="reservation-page confirmation-page">
-
-          <h2 className="brand-name">TableEase</h2>
+          <h2 className="brand-name">
+            TableEase
+          </h2>
 
           <div className="success-icon">
             ✓
@@ -115,82 +205,119 @@ function App() {
           </p>
 
           <div className="reservation-card">
-            <h3>Reservation Details</h3>
+            <h3>
+              Reservation Details
+            </h3>
 
             <div className="detail-row">
-              <span>Reservation ID</span>
-              <strong>{reservation.reservationId}</strong>
+              <span>
+                Reservation ID
+              </span>
+
+              <strong>
+                {reservation.reservationId}
+              </strong>
             </div>
 
             <div className="detail-row">
-              <span>Customer</span>
-              <strong>{reservation.fullName}</strong>
+              <span>
+                Customer
+              </span>
+
+              <strong>
+                {reservation.fullName}
+              </strong>
             </div>
 
             <div className="detail-row">
-              <span>Date</span>
-              <strong>{reservation.reservationDate}</strong>
+              <span>
+                Date
+              </span>
+
+              <strong>
+                {formatDate(
+                  reservation.reservationDate
+                )}
+              </strong>
             </div>
 
             <div className="detail-row">
-              <span>Time</span>
-              <strong>{reservation.reservationTime}</strong>
+              <span>
+                Time
+              </span>
+
+              <strong>
+                {reservation.reservationTime}
+              </strong>
             </div>
 
             <div className="detail-row">
-              <span>Guests</span>
-              <strong>{reservation.numberOfGuests}</strong>
+              <span>
+                Guests
+              </span>
+
+              <strong>
+                {reservation.numberOfGuests}
+              </strong>
             </div>
           </div>
 
-          <button className="primary-button">
+          <button
+            className="primary-button"
+          >
             View Reservation
           </button>
 
           <button
             className="secondary-button"
             onClick={() => {
-              setReservation(null);
-
-              setFormData({
-                fullName: '',
-                phoneNumber: '',
-                email: '',
-                reservationDate: '',
-                reservationTime: '',
-                numberOfGuests: '',
-                specialRequests: ''
-              });
+              resetForm();
+              setPage('home');
             }}
           >
             Back to Home
           </button>
-
         </div>
       </div>
     );
   }
 
+  // =========================
+  // MAKE A RESERVATION PAGE
+  // =========================
+
   return (
     <div className="app">
       <div className="reservation-page">
-
-        <button className="back-button">
+        <button
+          className="back-button"
+          onClick={() => {
+            setError('');
+            setPage('home');
+          }}
+        >
           ← Back
         </button>
 
         <div className="page-header">
-          <h1>Make a Reservation</h1>
-          <p>Enter your booking details</p>
+          <h1>
+            Make a Reservation
+          </h1>
+
+          <p>
+            Enter your booking details
+          </p>
         </div>
 
         <form
           className="reservation-form"
           onSubmit={handleSubmit}
         >
-
           <div className="form-group">
-            <label>Full Name</label>
+            <label>
+              Full Name
+            </label>
+
             <input
               type="text"
               name="fullName"
@@ -202,7 +329,10 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Phone Number</label>
+            <label>
+              Phone Number
+            </label>
+
             <input
               type="tel"
               name="phoneNumber"
@@ -216,7 +346,10 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Email</label>
+            <label>
+              Email
+            </label>
+
             <input
               type="email"
               name="email"
@@ -228,7 +361,10 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Reservation Date</label>
+            <label>
+              Reservation Date
+            </label>
+
             <input
               type="date"
               name="reservationDate"
@@ -240,7 +376,9 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Reservation Time</label>
+            <label>
+              Reservation Time
+            </label>
 
             <select
               name="reservationTime"
@@ -253,7 +391,10 @@ function App() {
               </option>
 
               {timeOptions.map((time) => (
-                <option key={time} value={time}>
+                <option
+                  key={time}
+                  value={time}
+                >
                   {time}
                 </option>
               ))}
@@ -261,7 +402,10 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Number of Guests</label>
+            <label>
+              Number of Guests
+            </label>
+
             <input
               type="number"
               name="numberOfGuests"
@@ -274,7 +418,10 @@ function App() {
           </div>
 
           <div className="form-group">
-            <label>Special Requests (Optional)</label>
+            <label>
+              Special Requests (Optional)
+            </label>
+
             <input
               type="text"
               name="specialRequests"
@@ -296,9 +443,7 @@ function App() {
           >
             Confirm Reservation
           </button>
-
         </form>
-
       </div>
     </div>
   );

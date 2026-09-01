@@ -9,12 +9,99 @@ body {
   color: #28283d;
 }
 
+button,
+input,
+select {
+  font-family: Arial, sans-serif;
+}
+
+/* =========================
+   MAIN APP
+   ========================= */
+
 .app {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   padding: 30px 15px;
 }
+
+/* =========================
+   HOME PAGE
+   ========================= */
+
+.home-page {
+  width: 390px;
+  min-height: 620px;
+  background: #f9f8ff;
+  padding: 55px 28px 40px;
+}
+
+.home-brand {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 22px;
+  color: #28283d;
+}
+
+.home-subtitle {
+  margin: 0 0 55px;
+  text-align: center;
+  font-size: 15px;
+  color: #9693a7;
+}
+
+.home-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-section h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #28283d;
+}
+
+.home-section .primary-button {
+  margin-top: 0;
+}
+
+.home-section .secondary-button {
+  margin-top: 0;
+}
+
+.home-divider {
+  height: 1px;
+  margin: 42px 0 32px;
+  background: #ddd9ea;
+}
+
+.staff-description {
+  margin: -4px 0 28px;
+  font-size: 14px;
+  color: #777486;
+}
+
+.staff-button {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background: #e9e7ff;
+  color: #5b5ce2;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.home-page button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+/* =========================
+   RESERVATION PAGE
+   ========================= */
 
 .reservation-page {
   width: 390px;
@@ -24,18 +111,26 @@ body {
 }
 
 .back-button {
+  padding: 0;
+  margin-bottom: 24px;
   border: none;
   background: transparent;
   color: #5b5ce2;
   font-size: 14px;
   cursor: pointer;
-  padding: 0;
-  margin-bottom: 24px;
 }
 
+.back-button:hover {
+  opacity: 0.8;
+}
+
+/* =========================
+   PAGE HEADER
+   ========================= */
+
 .page-header {
-  text-align: center;
   margin-bottom: 32px;
+  text-align: center;
 }
 
 .page-header h1 {
@@ -50,6 +145,10 @@ body {
   color: #9693a7;
 }
 
+/* =========================
+   RESERVATION FORM
+   ========================= */
+
 .form-group {
   margin-bottom: 18px;
 }
@@ -61,17 +160,7 @@ body {
   color: #28283d;
 }
 
-.form-group input {
-  width: 100%;
-  height: 42px;
-  padding: 0 12px;
-  border: 1px solid #ddd9ea;
-  border-radius: 8px;
-  background: white;
-  font-size: 13px;
-  color: #28283d;
-}
-
+.form-group input,
 .form-group select {
   width: 100%;
   height: 42px;
@@ -83,19 +172,19 @@ body {
   color: #28283d;
 }
 
+.form-group input::placeholder {
+  color: #aaa6bd;
+}
+
+.form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: #5b5ce2;
 }
 
-.form-group input::placeholder {
-  color: #aaa6bd;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #5b5ce2;
-}
+/* =========================
+   BUTTONS
+   ========================= */
 
 .primary-button {
   width: 100%;
@@ -114,6 +203,27 @@ body {
   opacity: 0.92;
 }
 
+.secondary-button {
+  width: 100%;
+  height: 52px;
+  margin-top: 12px;
+  border: 1px solid #8b7cf6;
+  border-radius: 10px;
+  background: white;
+  color: #5b5ce2;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #f7f6ff;
+}
+
+/* =========================
+   ERROR MESSAGE
+   ========================= */
+
 .error-message {
   margin: 8px 0 12px;
   padding: 10px 12px;
@@ -123,6 +233,10 @@ body {
   color: #e5484d;
   font-size: 13px;
 }
+
+/* =========================
+   CONFIRMATION PAGE
+   ========================= */
 
 .confirmation-page {
   text-align: center;
@@ -156,11 +270,15 @@ body {
 }
 
 .confirmation-text {
-  margin: 0 auto 24px;
   max-width: 260px;
+  margin: 0 auto 24px;
   color: #9693a7;
   font-size: 14px;
 }
+
+/* =========================
+   RESERVATION DETAILS CARD
+   ========================= */
 
 .reservation-card {
   margin-bottom: 24px;
@@ -197,19 +315,18 @@ body {
   font-weight: 500;
 }
 
-.secondary-button {
-  width: 100%;
-  height: 52px;
-  margin-top: 12px;
-  border: 1px solid #8b7cf6;
-  border-radius: 10px;
-  background: white;
-  color: #5b5ce2;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
+/* =========================
+   MOBILE
+   ========================= */
 
-.secondary-button:hover {
-  background: #f7f6ff;
+@media (max-width: 430px) {
+  .app {
+    padding: 0;
+  }
+
+  .home-page,
+  .reservation-page {
+    width: 100%;
+    min-height: 100vh;
+  }
 }
