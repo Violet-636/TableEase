@@ -134,7 +134,7 @@ PM2 is used to keep the application running after the SSH connection is closed.
 The deployed TableEase application is available at:
 
 ```text
-http://13.238.194.117:5001
+http://13.211.219.102:5001/
 ```
 
 ## Known Limitations
